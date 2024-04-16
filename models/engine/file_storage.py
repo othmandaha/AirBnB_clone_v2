@@ -74,9 +74,9 @@ class FileStorage:
             return
         obj_to_del = f"{obj.__class__.__name__}.{obj.id}"
 
-        try:
-            del FileStorage.__objects[obj_to_del]
-        except AttributeError:
-            pass
-        except KeyboardInterrupt:
-            pass
+        #try:
+            #del FileStorage.__objects[obj_to_del]
+        #except AttributeError:
+            #pass
+        #except KeyboardInterrupt:
+            #pass
