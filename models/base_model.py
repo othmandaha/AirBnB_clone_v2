@@ -3,7 +3,6 @@
 
 import uuid
 from datetime import datetime
-from models import storage
 # from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy import Column, String, DateTime
 
@@ -13,8 +12,8 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
@@ -42,7 +41,13 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         return dictionary
+        try:
+            del dictionary["_sa_instance_state"]
+        except KeyError:
+            pass
+        return dictionary
 
     def delete(self):
         """Deletes the current istance from storage"""
+        from models import storage
         storage.delete(self)
