@@ -9,11 +9,12 @@ from sqlalchemy import Column, String, DateTime
 Base = declarative_base()
 
 class BaseModel:
+    """Class for common attributes of other classes"""
+    id = Column(String(60), unique=True, nullable=False, primary_key=True)
+    created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
+    updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
