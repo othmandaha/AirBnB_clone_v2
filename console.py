@@ -118,40 +118,32 @@ class HBNBCommand(cmd.Cmd):
         Create a new instance of BaseModel and save it to the JSON file.
         """
         try:
-            class_name = args.split(" ")[0]
-            if len(class_name) == 0:
+            # Split arguments and extract class name
+            class_name, *attributes = args.split()
+            if not class_name:
                 print("** class name missing **")
                 return
-            if class_name and class_name not in self.classes:
+            if class_name not in self.classes:
                 print("** class doesn't exist **")
                 return
 
+            # Parse attributes
             kwargs = {}
-            commands = args.split(" ")
-            for i in range(1, len(commands)):
-                
-                key = commands[i].split("=")[0]
-                value = commands[i].split("=")[1]
-                #key, value = tuple(commands[i].split("="))
-                if value.startswith('"'):
-                    value = value.strip('"').replace("_", " ")
-                else:
-                    try:
-                        value = eval(value)
-                    except (SyntaxError, NameError):
-                        continue
+            for attribute in attributes:
+                key, value = attribute.split("=")
+                value = value.strip('"').replace("_", " ") if value.startswith('"') else eval(value)
                 kwargs[key] = value
 
-            if kwargs == {}:
-                new_instance = eval(class_name)()
-            else:
-                new_instance = eval(class_name)(**kwargs)
+            # Create instance
+            model_class = self.classes[class_name]
+            new_instance = model_class(**kwargs) if kwargs else model_class()
+
+            # Save instance
             storage.new(new_instance)
             print(new_instance.id)
             storage.save()
-        except ValueError:
-            print(ValueError)
-            return
+        except Exception as e:
+            print(f"Error: {e}")
 
     def help_create(self):
         """ Help information for the create method """
