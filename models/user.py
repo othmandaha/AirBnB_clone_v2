@@ -18,7 +18,8 @@ class User(BaseModel):
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
         places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+        #Class review, when the user is deleted, all the linked reviews are deleted too
+        reviews = relationship("Review", backref="user", cascade="all, delete-orphan")
     else:
         email = ""
         password = ""
