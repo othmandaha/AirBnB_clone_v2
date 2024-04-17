@@ -11,8 +11,8 @@ Base = declarative_base()
 class BaseModel:
     """Class for common attributes of other classes"""
     id = Column(String(60), unique=True, nullable=False, primary_key=True)
-    created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
-    updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
+    created_at = Column(DateTime, nullable=False, default=(datetime.now()))
+    updated_at = Column(DateTime, nullable=False, default=(datetime.now()))
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if kwargs:
@@ -36,7 +36,7 @@ class BaseModel:
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
-        # storage.new(self)
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
