@@ -17,19 +17,9 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns a dictionary
-        Return:
-            returns a dictionary of __object
-        """
-        dic = {}
+        """Returns a dictionary or a filtered list of objects."""
         if cls:
-            dictionary = self.__objects
-            for key in dictionary:
-                partition = key.replace('.', ' ')
-                partition = shlex.split(partition)
-                if (partition[0] == cls.__name__):
-                    dic[key] = self.__objects[key]
-            return (dic)
+            return {k: v for k, v in self.__objects.items() if isinstance(v, cls)}
         else:
             return self.__objects
 
