@@ -2,6 +2,7 @@
 """ new class for sqlAlchemy """
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import relationship
 from sqlalchemy import (create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import Base
@@ -74,7 +75,8 @@ class DBStorage:
         """configuration
         """
         Base.metadata.create_all(self.__engine)
-        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        sec = sessionmaker(bind=self.__engine,
+                           expire_on_commit=False)
         Session = scoped_session(sec)
         self.__session = Session()
 
