@@ -122,7 +122,6 @@ class HBNBCommand(cmd.Cmd):
         Create a new instance of BaseModel and save it to the JSON file.
         """
         try:
-            # Split arguments and extract class name
             class_name, *attributes = args.split()
             if not class_name:
                 print("** class name missing **")
@@ -131,18 +130,15 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
 
-            # Parse attributes
             kwargs = {}
             for attribute in attributes:
                 key, value = attribute.split("=")
                 value = value.strip('"').replace("_", " ") if value.startswith('"') else eval(value)
                 kwargs[key] = value
 
-            # Create instance
             model_class = self.classes[class_name]
             new_instance = model_class(**kwargs) if kwargs else model_class()
 
-            # Save instance
             storage.new(new_instance)
             print(new_instance.id)
             storage.save()
