@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage database storage for hbnb clone"""
-import os
+from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 import urllib.parse
@@ -15,17 +15,17 @@ from models.review import Review
 
 
 class DBStorage:
-    """This class manages storage of hbnb models in a SQL database"""
+    """Class for common attributes of other classes"""
     __engine = None
     __session = None
 
     def __init__(self):
-        """Initializes the SQL database storage"""
-        user = os.getenv('HBNB_MYSQL_USER')
-        pword = os.getenv('HBNB_MYSQL_PWD')
-        host = os.getenv('HBNB_MYSQL_HOST')
-        db_name = os.getenv('HBNB_MYSQL_DB')
-        env = os.getenv('HBNB_ENV')
+        """Instatntiates a new model"""
+        user = getenv('HBNB_MYSQL_USER')
+        pword = getenv('HBNB_MYSQL_PWD')
+        host = getenv('HBNB_MYSQL_HOST')
+        db_name = getenv('HBNB_MYSQL_DB')
+        env = getenv('HBNB_ENV')
         DATABASE_URL = "mysql+mysqldb://{}:{}@{}:3306/{}".format(
             user, pword, host, db_name
         )
